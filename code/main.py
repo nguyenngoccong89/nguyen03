@@ -15,6 +15,7 @@ from code.simulation import simulate, compute_moments
 from code.diagnostics import (
     save_moments_table, plot_time_series, event_study,
     plot_event_study, plot_policy_functions, save_event_study_csv,
+    plot_stationary_distributions,
 )
 
 
@@ -57,18 +58,18 @@ def main():
     save_moments_table(moments)
     print()
     print("  Key moments:")
-    for k in ['mean_default_rate_O', 'mean_default_rate_P',
-              'mean_spread_O', 'mean_spread_P',
-              'mean_debt_gdp_O', 'mean_debt_gdp_P',
-              'corr_spreadO_spreadP',
-              'mean_CL']:
-        if k in moments:
-            print(f"    {k:35s} = {moments[k]:.4f}")
+    for k in sorted(moments.keys()):
+        print(f"    {k:40s} = {moments[k]:.6f}")
     print()
 
     # ── 6. Time-series plot ──
     print("Plotting time series...")
     plot_time_series(sims, p, sim_idx=0, T_plot=300)
+    print()
+
+    # ── 6b. Stationary distributions ──
+    print("Plotting stationary distributions...")
+    plot_stationary_distributions(sims, p)
     print()
 
     # ── 7. Event study around O default ──

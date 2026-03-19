@@ -84,7 +84,9 @@ def simulate(eq, seed=42):
             'zO', 'zP', 'bO_due', 'bP_due', 'bOp_val', 'bPp_val',
             'yO', 'yP', 'lO', 'lP', 'cO', 'cP', 'gO', 'gP',
             'tauO', 'tauP', 'qO', 'qP', 'spreadO', 'spreadP',
-            'dO_prob', 'dP_prob', 'CL']
+            'dO_prob', 'dP_prob', 'CL',
+            'mu_L', 'repayO', 'repayP', 'purchO', 'purchP',
+            'eff_zO', 'eff_zP']
     store = {k: np.zeros((N, T)) for k in keys}
 
     rng = np.random.default_rng(seed)
@@ -251,13 +253,20 @@ def simulate(eq, seed=42):
             store['tauO'][n, t] = tauO_val
             store['tauP'][n, t] = tauP_val
 
-            # lender consumption
-            repayO = (1.0 - dO_real) * bO[ibO] if (xO == 0) else 0.0
-            repayP = (1.0 - dP_real) * bP[ibP] if (xP == 0) else 0.0
-            purchO = store['qO'][n, t] * bO[ibOp] if (xO == 0 and dO_real == 0) else 0.0
-            purchP = store['qP'][n, t] * bP[ibPp] if (xP == 0 and dP_real == 0) else 0.0
-            CL_val = p.y_L + repayO + repayP - purchO - purchP
+            # lender consumption and related objects
+            repayO_val = (1.0 - dO_real) * bO[ibO] if (xO == 0) else 0.0
+            repayP_val = (1.0 - dP_real) * bP[ibP] if (xP == 0) else 0.0
+            purchO_val = store['qO'][n, t] * bO[ibOp] if (xO == 0 and dO_real == 0) else 0.0
+            purchP_val = store['qP'][n, t] * bP[ibPp] if (xP == 0 and dP_real == 0) else 0.0
+            CL_val = p.y_L + repayO_val + repayP_val - purchO_val - purchP_val
             store['CL'][n, t] = max(CL_val, _EPS)
+            store['mu_L'][n, t] = max(CL_val, _EPS) ** (-p.sigma_L)
+            store['repayO'][n, t] = repayO_val
+            store['repayP'][n, t] = repayP_val
+            store['purchO'][n, t] = purchO_val
+            store['purchP'][n, t] = purchP_val
+            store['eff_zO'][n, t] = z_tilde_O
+            store['eff_zP'][n, t] = z_tilde_P
 
             # spreads: yield = 1/q - 1; risk-free yield from lender SDF
             # q_rf = β_L * (C_L_next / C_L_now)^{-σ_L} ≈ β_L when consumption stable
@@ -327,9 +336,25 @@ def compute_moments(sims, p):
         moments[f'mean_bond_price_{suffix}'] = np.mean(s[f'q{suffix}'])
         moments[f'mean_exclusion_{suffix}'] = np.mean(s[f'x{suffix}'])
 
+    # Lender moments
     moments['mean_CL'] = np.mean(s['CL'])
     moments['std_CL'] = np.std(s['CL'])
+    moments['mean_mu_L'] = np.mean(s['mu_L'])
+    moments['mean_repayO'] = np.mean(s['repayO'])
+    moments['mean_repayP'] = np.mean(s['repayP'])
+    moments['mean_purchO'] = np.mean(s['purchO'])
+    moments['mean_purchP'] = np.mean(s['purchP'])
+
+    # Cross-country moments
     moments['corr_spreadO_spreadP'] = np.corrcoef(
         s['spreadO'].ravel(), s['spreadP'].ravel())[0, 1]
+
+    # Volatility ratios
+    std_yO = np.std(s['yO'])
+    std_yP = np.std(s['yP'])
+    if std_yO > 1e-10:
+        moments['vol_cO_over_yO'] = np.std(s['cO']) / std_yO
+    if std_yP > 1e-10:
+        moments['vol_cP_over_yP'] = np.std(s['cP']) / std_yP
 
     return moments

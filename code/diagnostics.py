@@ -118,7 +118,9 @@ def event_study(sims, p, half_window=None):
     var_keys = [
         'yO', 'lO', 'cO', 'gO', 'tauO', 'bO_due', 'spreadO', 'qO', 'dO_prob',
         'yP', 'lP', 'cP', 'gP', 'tauP', 'bP_due', 'spreadP', 'qP', 'dP_prob',
-        'CL', 'dO', 'dP', 'bOp_val', 'bPp_val',
+        'CL', 'mu_L', 'dO', 'dP', 'bOp_val', 'bPp_val',
+        'repayO', 'repayP', 'purchO', 'purchP',
+        'eff_zO', 'eff_zP',
     ]
     accum = {k: np.zeros(W) for k in var_keys}
 
@@ -188,14 +190,17 @@ def plot_event_study(es, p, half_window=None):
     plt.close(fig)
 
     # Lender
-    fig, axes = plt.subplots(2, 3, figsize=(15, 8))
+    fig, axes = plt.subplots(3, 3, figsize=(15, 12))
     l_vars = [
         ('CL', 'Lender consumption'),
-        ('bOp_val', 'O debt issued'),
-        ('bPp_val', 'P debt issued'),
+        ('mu_L', 'Lender marginal utility'),
+        ('dO', 'O default indicator'),
+        ('repayO', 'Repayments from O'),
+        ('repayP', 'Repayments from P'),
+        ('purchO', 'Purchases of O bonds'),
+        ('purchP', 'Purchases of P bonds'),
         ('qO', 'O bond price'),
         ('qP', 'P bond price'),
-        ('dO', 'O default indicator'),
     ]
     for idx, (k, lab) in enumerate(l_vars):
         ax = axes[idx // 3, idx % 3]
@@ -258,6 +263,33 @@ def plot_policy_functions(eq):
     fig.savefig(os.path.join(FIG_DIR, 'policy_functions.png'), dpi=150)
     plt.close(fig)
     print("  Policy-function plots saved.")
+
+
+def plot_stationary_distributions(sims, p):
+    """Plot stationary distributions of key variables."""
+    fig, axes = plt.subplots(2, 3, figsize=(15, 8))
+
+    pairs = [
+        ('bO_due', 'O Debt Distribution'),
+        ('bP_due', 'P Debt Distribution'),
+        ('spreadO', 'O Spread Distribution (bp)'),
+        ('spreadP', 'P Spread Distribution (bp)'),
+        ('CL', 'Lender Consumption Distribution'),
+        ('tauO', 'O Tax Rate Distribution'),
+    ]
+    for idx, (k, lab) in enumerate(pairs):
+        ax = axes[idx // 3, idx % 3]
+        data = sims[k].ravel()
+        data = data[np.isfinite(data)]
+        ax.hist(data, bins=50, density=True, alpha=0.7, color='steelblue', edgecolor='white')
+        ax.set_title(lab)
+        ax.set_ylabel('Density')
+
+    fig.suptitle('Stationary Distributions', fontsize=14)
+    fig.tight_layout(rect=[0, 0, 1, 0.96])
+    fig.savefig(os.path.join(FIG_DIR, 'stationary_distributions.png'), dpi=150)
+    plt.close(fig)
+    print("  Stationary distribution plots saved.")
 
 
 def save_event_study_csv(es, fname='event_study.csv'):

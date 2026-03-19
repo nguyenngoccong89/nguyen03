@@ -15,10 +15,15 @@ mean_exclusion_O,0.004628
 mean_exclusion_P,0.017414
 mean_labor_O,0.852148
 mean_labor_P,0.716880
+mean_mu_L,1.801150
 mean_output_O,0.936821
 mean_output_P,0.558481
 mean_public_spending_O,0.233666
 mean_public_spending_P,0.140110
+mean_purchO,0.140436
+mean_purchP,0.075061
+mean_repayO,0.140547
+mean_repayP,0.075236
 mean_spread_O,74.725919
 mean_spread_P,83.752602
 mean_tax_O,0.382921
@@ -26,3 +31,5 @@ mean_tax_P,0.384050
 std_CL,0.065814
 std_spread_O,152.102260
 std_spread_P,157.772707
+vol_cO_over_yO,0.941705
+vol_cP_over_yP,0.838140

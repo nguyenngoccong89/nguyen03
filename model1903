@@ -1,0 +1,1866 @@
+\documentclass[12pt,a4paper]{article}
+
+% -------------------------------------------------
+% Packages
+% -------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\onehalfspacing
+
+% -------------------------------------------------
+% Macros
+% -------------------------------------------------
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\1}{\mathbf{1}}
+
+\newcommand{\VO}{V_O}
+\newcommand{\VP}{V_P}
+\newcommand{\WO}{W_O}
+\newcommand{\WP}{W_P}
+
+\newcommand{\hVP}{\widehat V_P}
+
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\supp}{\operatorname{supp}}
+
+% -------------------------------------------------
+% Title
+% -------------------------------------------------
+\title{}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Model}
+
+We study a two-country sovereign default economy with contagion through common, risk-averse international lenders. The world economy consists of two borrowing countries, denoted $O$ and $P$, and a continuum of identical foreign investors. Time is discrete and infinite.
+
+The recursive structure follows the leader-follower formulation in the spirit of de Ferra and Mallucci. When both countries have market access, country $O$ acts first and country $P$ acts after observing $O$'s current policy. When only one country has market access, only that country makes meaningful debt-market decisions. Our departure from the endowment setup is that each country is instead a production economy with endogenous labor supply and a government that finances public goods through a distortionary tax on consumption. Accordingly, the sovereign's policy problem is naturally written in terms of debt issuance and taxation, with public expenditure pinned down residually by the government budget constraint.
+
+\subsection{Environment}
+
+Each country $i\in\{O,P\}$ issues one-period, non-contingent debt. Let $b_i\ge 0$ denote the stock of debt due in the current period, and let $b_i'\ge 0$ denote new debt issued in the current period and due next period.
+
+At the beginning of each period, country $i$ either has access to international financial markets or is temporarily excluded from them. We summarize this status by an indicator $x_i\in\{0,1\}$, where $x_i=0$ denotes market access and $x_i=1$ denotes exclusion. Let
+\[
+s=(y,b,x)
+\]
+denote the aggregate state, where $y=(y_O,y_P)$ is the vector of country-specific productivity shifters, $b=(b_O,b_P)$ is the vector of debt due, and $x=(x_O,x_P)$ is the vector of access indicators. We restrict attention to admissible states satisfying
+\[
+x_i=1 \Rightarrow b_i=0.
+\]
+
+The vector $y$ follows a Markov process, potentially correlated across countries.
+
+\subsection{Production, households, and taxation}
+
+Country $i$ produces output according to
+\[
+Y_i = A_i y_i l_i,
+\]
+where $A_i>0$ is a scale parameter and $l_i\in[0,1]$ is labor supply.
+
+The representative household in country $i$ has preferences
+\[
+\E_0 \sum_{t=0}^{\infty}\beta^t \left[ u(c_{i,t},1-l_{i,t}) + v(g_{i,t}) \right],
+\]
+where $c_i$ denotes private consumption and $g_i$ denotes the public good.
+
+The government levies a proportional tax on consumption, $\tau_i\ge 0$. The household budget constraint is
+\begin{equation}
+(1+\tau_i)c_i = A_i \tilde y_i l_i,
+\end{equation}
+where effective productivity is
+\[
+\tilde y_i =
+\begin{cases}
+y_i, & \text{if } x_i=0 \text{ and the sovereign repays in the current period},\\[4pt]
+h_i(y_i), & \text{if } x_i=1 \text{ or the sovereign defaults in the current period},
+\end{cases}
+\qquad 0<h_i(y_i)\le y_i.
+\]
+
+Household optimality implies the intratemporal condition
+\begin{equation}
+\frac{u_{1-l}(c_i,1-l_i)}{u_c(c_i,1-l_i)}
+=
+\frac{A_i\tilde y_i}{1+\tau_i}.
+\end{equation}
+For every admissible pair $(\tau_i,\tilde y_i)$, the household budget constraint and intratemporal first-order condition jointly determine private allocations $(c_i^*,l_i^*)$.
+
+Because the public good is tax financed, it is not treated as an independent control. Once the government chooses its tax rate and, in repayment states, its issuance decision, public expenditure is pinned down residually by the government budget constraint.
+
+\subsection{Government budget constraints and resource feasibility}
+
+If country $i$ has market access and repays in the current period, the government budget constraint is
+\begin{equation}
+g_i = \tau_i c_i^* + q_i(\cdot)b_i' - b_i.
+\end{equation}
+Equivalently,
+\begin{equation}
+g_i + b_i = \tau_i c_i^* + q_i(\cdot)b_i'.
+\end{equation}
+
+If instead the government defaults or is excluded, it cannot issue new debt, and
+\begin{equation}
+g_i = \tau_i c_i^*.
+\end{equation}
+
+Combining the household budget constraint with the government budget constraint yields the consolidated country resource constraints. In repayment states,
+\begin{equation}
+c_i^* + g_i = A_i y_i l_i^* - b_i + q_i(\cdot)b_i'.
+\end{equation}
+In default or exclusion states,
+\begin{equation}
+c_i^* + g_i = A_i h_i(y_i) l_i^*.
+\end{equation}
+
+\subsection{Default, exclusion, and readmission}
+
+If country $i$ has market access, it chooses whether to repay or default. Let $d_i\in\{0,1\}$, where $d_i=1$ denotes default. If $x_i=1$, the country is already excluded and makes no meaningful debt-market choice, although it still chooses a tax rate and thereby determines public expenditure.
+
+Debt issuance is constrained by repayment and market access:
+\begin{equation}
+b_i' = 0 \qquad \text{if } x_i=1 \text{ or } d_i=1.
+\end{equation}
+
+Exclusion is temporary. Let $\lambda_i\in(0,1)$ denote the probability that country $i$ regains market access in the next period, conditional on being excluded at the end of the current period. Debt evolves according to
+\begin{equation}
+b_{i,t+1}=
+\begin{cases}
+b_{i,t}', & \text{if } x_{i,t}=0 \text{ and } d_{i,t}=0,\\[4pt]
+0, & \text{if } x_{i,t}=1 \text{ or } d_{i,t}=1.
+\end{cases}
+\end{equation}
+
+\subsection{International lenders and bond pricing}
+
+International lenders are risk averse and price sovereign bonds using their intertemporal marginal rate of substitution. Whenever country $i$'s debt is traded,
+\begin{equation}
+q_i(\cdot)=
+\beta_L
+\E\left[
+\frac{U_L'(C_L')}{U_L'(C_L)}(1-d_i(s'))
+\right].
+\end{equation}
+When only one country has market access, the corresponding price schedule is denoted $q_i^S(\cdot)$.
+
+\subsection{Timing of the game}
+
+Within each period, productivity and readmission shocks are realized. If both countries have market access, country $O$ first chooses a current policy vector
+\[
+a_O=(d_O,b_O',\tau_O),
+\]
+subject to $b_O'=0$ if $d_O=1$. Country $P$ then observes $a_O$ and chooses
+\[
+a_P=(d_P,b_P',\tau_P),
+\]
+subject to $b_P'=0$ if $d_P=1$. Households then choose private allocations, current obligations are settled, new debt is traded, and the economy transitions to the next period.
+
+\section{Recursive sovereign problems}
+
+
+\subsection{Both countries have market access}
+
+Consider the regime $(x_O,x_P)=(0,0)$.
+
+\subsubsection{Periphery's problem}
+
+Given the leader's current policy vector
+\[
+a_O=(d_O,b_O',\tau_O),
+\]
+the follower's conditional value is
+\begin{equation}
+\widehat V_P(s;a_O)
+=
+\max\left\{
+\sup_{(b_P',\tau_P)\in \Gamma_P^{r}(s;a_O)} W_P^{r}(s;a_O,b_P',\tau_P),
+\;
+\sup_{\tau_P\in \Gamma_P^{d}(s;a_O)} W_P^{d}(s;a_O,\tau_P)
+\right\}.
+\end{equation}
+
+\paragraph{Repayment branch.}
+For any observed $a_O$ and any repayment choice $(b_P',\tau_P)$, define
+\begin{equation}
+W_P^{r}(s;a_O,b_P',\tau_P)
+=
+u(c_P^*,1-l_P^*)+v(g_P)
++\beta\E\!\left[\mathcal C_P^{r}(s';a_O,b_P',\tau_P)\right],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_P)c_P^* &= A_P y_P l_P^*,\\
+\frac{u_{1-l}(c_P^*,1-l_P^*)}{u_c(c_P^*,1-l_P^*)}
+&=
+\frac{A_P y_P}{1+\tau_P},\\
+g_P &= \tau_P c_P^* + q_P(s;a_O,b_P',\tau_P)b_P' - b_P,\\
+c_P^* + g_P &= A_P y_P l_P^* - b_P + q_P(s;a_O,b_P',\tau_P)b_P',
+\end{align}
+with
+\[
+b_P'\ge 0,\qquad \tau_P\ge 0,\qquad g_P\ge 0.
+\]
+
+The continuation value is
+\begin{equation}
+\mathcal C_P^{r}(s';a_O,b_P',\tau_P)
+=
+(1-d_O)V_P^{00}(s')
++
+d_O\Big[(1-\lambda_O)V_P^{10}(s')+\lambda_O V_P^{00}(s')\Big].
+\end{equation}
+
+The feasible set is
+\[
+\Gamma_P^{r}(s;a_O)
+=
+\left\{
+(b_P',\tau_P):
+b_P'\ge 0,\ \tau_P\ge 0,\ g_P(s;a_O,b_P',\tau_P)\ge 0
+\right\}.
+\]
+
+\paragraph{Default branch.}
+For any observed $a_O$ and any default-state tax choice $\tau_P$, define
+\begin{equation}
+W_P^{d}(s;a_O,\tau_P)
+=
+u(c_P^*,1-l_P^*)+v(g_P)
++\beta\E\!\left[\mathcal C_P^{d}(s';a_O,\tau_P)\right],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_P)c_P^* &= A_P h_P(y_P)l_P^*,\\
+\frac{u_{1-l}(c_P^*,1-l_P^*)}{u_c(c_P^*,1-l_P^*)}
+&=
+\frac{A_P h_P(y_P)}{1+\tau_P},\\
+g_P &= \tau_P c_P^*,\\
+c_P^* + g_P &= A_P h_P(y_P)l_P^*,
+\end{align}
+with
+\[
+\tau_P\ge 0,\qquad g_P\ge 0.
+\]
+
+Its continuation value is
+\begin{equation}
+\begin{aligned}
+\mathcal C_P^{d}(s';a_O,\tau_P)
+=&(1-d_O)\Big[(1-\lambda_P)V_P^{01}(s')+\lambda_PV_P^{00}(s')\Big]\\
+&+d_O\Big[
+(1-\lambda_P)(1-\lambda_O)V_P^{11}(s')
++(1-\lambda_P)\lambda_O V_P^{01}(s')\\
+&\qquad\qquad+\lambda_P(1-\lambda_O)V_P^{10}(s')
++\lambda_P\lambda_O V_P^{00}(s')
+\Big].
+\end{aligned}
+\end{equation}
+
+The feasible set is
+\[
+\Gamma_P^{d}(s;a_O)=\{\tau_P:\tau_P\ge 0\}.
+\]
+
+The follower's default rule is therefore
+\begin{equation}
+\hat d_P(s;a_O)
+=
+\1\left\{
+\sup_{\tau_P\in\Gamma_P^{d}(s;a_O)}W_P^{d}(s;a_O,\tau_P)
+\ge
+\sup_{(b_P',\tau_P)\in\Gamma_P^{r}(s;a_O)}W_P^{r}(s;a_O,b_P',\tau_P)
+\right\},
+\end{equation}
+and its repayment policy rule is
+\begin{equation}
+(\hat b_P',\hat\tau_P)(s;a_O)
+\in
+\argmax_{(b_P',\tau_P)\in\Gamma_P^{r}(s;a_O)}
+W_P^{r}(s;a_O,b_P',\tau_P),
+\end{equation}
+with $\hat b_P'(s;a_O)=0$ whenever $\hat d_P(s;a_O)=1$.
+
+\subsubsection{Outskirt's problem}
+
+The leader's equilibrium value in the joint-access regime is
+\begin{equation}
+V_O^{00}(s)
+=
+\max\left\{
+\sup_{(b_O',\tau_O)\in\Gamma_O^{r}(s)}W_O^{r}(s;b_O',\tau_O),
+\;
+\sup_{\tau_O\in\Gamma_O^{d}(s)}W_O^{d}(s;\tau_O)
+\right\}.
+\end{equation}
+
+\paragraph{Repayment branch.}
+For any repayment choice $(b_O',\tau_O)$, define
+\begin{equation}
+W_O^{r}(s;b_O',\tau_O)
+=
+u(c_O^*,1-l_O^*)+v(g_O)
++\beta\E\!\left[\mathcal C_O^{r}(s';b_O',\tau_O)\right],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_O)c_O^* &= A_O y_O l_O^*,\\
+\frac{u_{1-l}(c_O^*,1-l_O^*)}{u_c(c_O^*,1-l_O^*)}
+&=
+\frac{A_O y_O}{1+\tau_O},\\
+g_O &= \tau_O c_O^* + q_O(s;a_O,\hat a_P(s;a_O))b_O' - b_O,\\
+c_O^* + g_O
+&=
+A_O y_O l_O^*
+-b_O
++
+q_O(s;a_O,\hat a_P(s;a_O))b_O',
+\end{align}
+with
+\[
+b_O'\ge 0,\qquad \tau_O\ge 0,\qquad g_O\ge 0,
+\]
+where $a_O=(0,b_O',\tau_O)$.
+
+Its continuation value is
+\begin{equation}
+\mathcal C_O^{r}(s';b_O',\tau_O)
+=
+(1-\hat d_P(s;a_O))V_O^{00}(s')
++
+\hat d_P(s;a_O)\Big[(1-\lambda_P)V_O^{01}(s')+\lambda_PV_O^{00}(s')\Big].
+\end{equation}
+
+The feasible set is
+\[
+\Gamma_O^{r}(s)
+=
+\left\{
+(b_O',\tau_O):
+b_O'\ge 0,\ \tau_O\ge 0,\ g_O(s;b_O',\tau_O)\ge 0
+\right\}.
+\]
+
+\paragraph{Default branch.}
+For any default-state tax choice $\tau_O$, define
+\begin{equation}
+W_O^{d}(s;\tau_O)
+=
+u(c_O^*,1-l_O^*)+v(g_O)
++\beta\E\!\left[\mathcal C_O^{d}(s';\tau_O)\right],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_O)c_O^* &= A_O h_O(y_O)l_O^*,\\
+\frac{u_{1-l}(c_O^*,1-l_O^*)}{u_c(c_O^*,1-l_O^*)}
+&=
+\frac{A_O h_O(y_O)}{1+\tau_O},\\
+g_O &= \tau_O c_O^*,\\
+c_O^* + g_O &= A_O h_O(y_O)l_O^*,
+\end{align}
+with
+\[
+\tau_O\ge 0,\qquad g_O\ge 0.
+\]
+
+Its continuation value is
+\begin{equation}
+\begin{aligned}
+\mathcal C_O^{d}(s';\tau_O)
+=&(1-\hat d_P(s;a_O^d))\Big[(1-\lambda_O)V_O^{10}(s')+\lambda_OV_O^{00}(s')\Big]\\
+&+\hat d_P(s;a_O^d)\Big[
+(1-\lambda_O)(1-\lambda_P)V_O^{11}(s')
++(1-\lambda_O)\lambda_PV_O^{10}(s')\\
+&\qquad\qquad+\lambda_O(1-\lambda_P)V_O^{01}(s')
++\lambda_O\lambda_PV_O^{00}(s')
+\Big],
+\end{aligned}
+\end{equation}
+where $a_O^d=(1,0,\tau_O)$.
+
+The feasible set is
+\[
+\Gamma_O^{d}(s)=\{\tau_O:\tau_O\ge 0\}.
+\]
+
+Once the leader's equilibrium policy $a_O^*(s)$ is determined, the follower's conditional objects become state-only equilibrium objects:
+\begin{align}
+d_P(s) &= \hat d_P(s;a_O^*(s)),\\
+b_P'(s) &= \hat b_P'(s;a_O^*(s)),\\
+\tau_P(s) &= \hat\tau_P(s;a_O^*(s)),
+\end{align}
+and
+\begin{equation}
+V_P^{00}(s)=\widehat V_P(s;a_O^*(s)).
+\end{equation}
+
+\subsection{Only one country has market access}
+
+We now turn to the case in which only one country has market access.
+
+\subsubsection{Only $O$ has access: $(x_O,x_P)=(0,1)$}
+
+The equilibrium value is
+\begin{equation}
+V_O^{01}(s)
+=
+\max\left\{
+\sup_{(b_O',\tau_O)\in\Gamma_O^{r,01}(s)}W_O^{r,01}(s;b_O',\tau_O),
+\;
+\sup_{\tau_O\in\Gamma_O^{d,01}(s)}W_O^{d,01}(s;\tau_O)
+\right\}.
+\end{equation}
+
+For any repayment choice $(b_O',\tau_O)$,
+\begin{equation}
+W_O^{r,01}(s;b_O',\tau_O)
+=
+u(c_O^*,1-l_O^*)+v(g_O)+\beta\E[\mathcal C_O^{r,01}(s')],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_O)c_O^* &= A_O y_O l_O^*,\\
+\frac{u_{1-l}(c_O^*,1-l_O^*)}{u_c(c_O^*,1-l_O^*)}
+&=
+\frac{A_O y_O}{1+\tau_O},\\
+g_O &= \tau_O c_O^* + q_O^S(s;b_O',\tau_O)b_O' - b_O,\\
+c_O^* + g_O &= A_O y_O l_O^* - b_O + q_O^S(s;b_O',\tau_O)b_O',
+\end{align}
+with
+\[
+b_O'\ge 0,\qquad \tau_O\ge 0,\qquad g_O\ge 0,
+\]
+and continuation
+\begin{equation}
+\mathcal C_O^{r,01}(s')
+=
+(1-\lambda_P)V_O^{01}(s')+\lambda_PV_O^{00}(s').
+\end{equation}
+
+For any default-state tax choice $\tau_O$,
+\begin{equation}
+W_O^{d,01}(s;\tau_O)
+=
+u(c_O^*,1-l_O^*)+v(g_O)+\beta\E[\mathcal C_O^{d,01}(s')],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_O)c_O^* &= A_O h_O(y_O)l_O^*,\\
+\frac{u_{1-l}(c_O^*,1-l_O^*)}{u_c(c_O^*,1-l_O^*)}
+&=
+\frac{A_O h_O(y_O)}{1+\tau_O},\\
+g_O &= \tau_O c_O^*,\\
+c_O^* + g_O &= A_O h_O(y_O)l_O^*,
+\end{align}
+with
+\[
+\tau_O\ge 0,\qquad g_O\ge 0,
+\]
+and continuation
+\begin{equation}
+\begin{aligned}
+\mathcal C_O^{d,01}(s')
+=&(1-\lambda_O)(1-\lambda_P)V_O^{11}(s')
++(1-\lambda_O)\lambda_PV_O^{10}(s')\\
+&+\lambda_O(1-\lambda_P)V_O^{01}(s')
++\lambda_O\lambda_PV_O^{00}(s').
+\end{aligned}
+\end{equation}
+
+\subsubsection{Only $P$ has access: $(x_O,x_P)=(1,0)$}
+
+Symmetrically,
+\begin{equation}
+V_P^{10}(s)
+=
+\max\left\{
+\sup_{(b_P',\tau_P)\in\Gamma_P^{r,10}(s)}W_P^{r,10}(s;b_P',\tau_P),
+\;
+\sup_{\tau_P\in\Gamma_P^{d,10}(s)}W_P^{d,10}(s;\tau_P)
+\right\}.
+\end{equation}
+
+For any repayment choice $(b_P',\tau_P)$,
+\begin{equation}
+W_P^{r,10}(s;b_P',\tau_P)
+=
+u(c_P^*,1-l_P^*)+v(g_P)+\beta\E[\mathcal C_P^{r,10}(s')],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_P)c_P^* &= A_P y_P l_P^*,\\
+\frac{u_{1-l}(c_P^*,1-l_P^*)}{u_c(c_P^*,1-l_P^*)}
+&=
+\frac{A_P y_P}{1+\tau_P},\\
+g_P &= \tau_P c_P^* + q_P^S(s;b_P',\tau_P)b_P' - b_P,\\
+c_P^* + g_P &= A_P y_P l_P^* - b_P + q_P^S(s;b_P',\tau_P)b_P',
+\end{align}
+with
+\[
+b_P'\ge 0,\qquad \tau_P\ge 0,\qquad g_P\ge 0,
+\]
+and continuation
+\begin{equation}
+\mathcal C_P^{r,10}(s')
+=
+(1-\lambda_O)V_P^{10}(s')+\lambda_OV_P^{00}(s').
+\end{equation}
+
+For any default-state tax choice $\tau_P$,
+\begin{equation}
+W_P^{d,10}(s;\tau_P)
+=
+u(c_P^*,1-l_P^*)+v(g_P)+\beta\E[\mathcal C_P^{d,10}(s')],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_P)c_P^* &= A_P h_P(y_P)l_P^*,\\
+\frac{u_{1-l}(c_P^*,1-l_P^*)}{u_c(c_P^*,1-l_P^*)}
+&=
+\frac{A_P h_P(y_P)}{1+\tau_P},\\
+g_P &= \tau_P c_P^*,\\
+c_P^* + g_P &= A_P h_P(y_P)l_P^*,
+\end{align}
+with
+\[
+\tau_P\ge 0,\qquad g_P\ge 0,
+\]
+and continuation
+\begin{equation}
+\begin{aligned}
+\mathcal C_P^{d,10}(s')
+=&(1-\lambda_P)(1-\lambda_O)V_P^{11}(s')
++(1-\lambda_P)\lambda_OV_P^{01}(s')\\
+&+\lambda_P(1-\lambda_O)V_P^{10}(s')
++\lambda_P\lambda_OV_P^{00}(s').
+\end{aligned}
+\end{equation}
+
+\subsection{Both countries excluded: $(x_O,x_P)=(1,1)$}
+
+When both countries are excluded, neither can issue debt. Each country chooses only its tax rate. For country $i\in\{O,P\}$,
+\begin{equation}
+V_i^{11}(s)
+=
+\sup_{\tau_i\in\Gamma_i^{11}(s)}W_i^{11}(s;\tau_i),
+\end{equation}
+where
+\begin{equation}
+W_i^{11}(s;\tau_i)
+=
+u(c_i^*,1-l_i^*)+v(g_i)+\beta\E[\mathcal C_i^{11}(s')],
+\end{equation}
+subject to
+\begin{align}
+(1+\tau_i)c_i^* &= A_i h_i(y_i)l_i^*,\\
+\frac{u_{1-l}(c_i^*,1-l_i^*)}{u_c(c_i^*,1-l_i^*)}
+&=
+\frac{A_i h_i(y_i)}{1+\tau_i},\\
+g_i &= \tau_i c_i^*,\\
+c_i^* + g_i &= A_i h_i(y_i)l_i^*,
+\end{align}
+with
+\[
+\tau_i\ge 0,\qquad g_i\ge 0.
+\]
+
+Its continuation value is
+\begin{equation}
+\mathcal C_i^{11}(s')
+=
+(1-\lambda_O)(1-\lambda_P)V_i^{11}(s')
++\lambda_O(1-\lambda_P)V_i^{01}(s')
++(1-\lambda_O)\lambda_PV_i^{10}(s')
++\lambda_O\lambda_PV_i^{00}(s').
+\end{equation}
+
+\section{Recursive equilibrium}
+
+A recursive Stackelberg equilibrium consists of
+\begin{itemize}[leftmargin=2em]
+    \item state-only regime value functions
+    \[
+    \{V_O^{00},V_O^{01},V_O^{10},V_O^{11},V_P^{00},V_P^{01},V_P^{10},V_P^{11}\},
+    \]
+    \item follower conditional objects
+    \[
+    \widehat V_P(s;a_O),\qquad
+    \hat d_P(s;a_O),\qquad
+    \hat b_P'(s;a_O),\qquad
+    \hat\tau_P(s;a_O),
+    \]
+    \item leader and sole-borrower policy rules,
+    \item household allocations satisfying private optimality,
+    \item and bond-price schedules satisfying lenders' Euler equations.
+\end{itemize}
+
+Given prices, each sovereign solves the relevant state-action problem above. Given sovereign policies, lenders price sovereign debt according to their stochastic discount factor. The state then evolves according to productivity, debt issuance, default, and readmission.
+
+\subsection{Functional Forms and Parameter Values}
+
+Table \ref{tab:functional_forms} summarizes the functional forms used in the quantitative exercise, and Table \ref{tab:parameters} reports the parameter values.
+
+\begin{table}[htbp]
+\centering
+\caption{Functional forms}
+\label{tab:functional_forms}
+\begin{tabular}{lll}
+\toprule
+Object & Functional form & Description \\
+\midrule
+Private utility &
+\(
+u(c,l)=
+\frac{\left(c-\theta \frac{l^{1+\nu}}{1+\nu}\right)^{1-\sigma_H}}{1-\sigma_H}
+\)
+& GHH preferences \\[10pt]
+
+Public-good utility &
+\(
+v(g)=\omega_g\frac{g^{1-\sigma_H}}{1-\sigma_H}
+\)
+& Utility from public expenditure \\[10pt]
+
+Production &
+\(
+y=z\,l
+\)
+& Output production \\[8pt]
+
+Productivity process &
+\(
+\ln z'=\rho \ln z+\varepsilon', \qquad
+\varepsilon' \sim \mathcal N(0,\sigma_\varepsilon^2)
+\)
+& AR(1) productivity \\[10pt]
+
+Default penalty &
+\(
+h(z)=z-\max\bigl(0,d_0 z+d_1 z^2\bigr)
+\)
+& Output cost in default/exclusion \\[10pt]
+
+Lender marginal utility &
+\(
+U_L'(C)=C^{-\sigma_L}
+\)
+& Foreign lenders \\[8pt]
+
+Readmission process &
+\(
+\Pr(x_i'=0\mid x_i=1)=\lambda
+\)
+& Market re-entry probability \\[8pt]
+
+Inclusive value &
+\(
+\mathcal I(v_1,\dots,v_n)
+=
+\gamma_E\rho_{EV}
++
+m
++
+\rho_{EV}\log\!\left(\sum_{j=1}^n e^{(v_j-m)/\rho_{EV}}\right),
+\quad
+m=\max_j v_j
+\)
+& Extreme-value smoothing \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Baseline parameter values}
+\label{tab:parameters}
+\begin{tabular}{lll}
+\toprule
+Parameter & Value & Interpretation \\
+\midrule
+\(\sigma_H\) & \(2.0\) & Household risk aversion \\[4pt]
+\(\theta\) & \(1.0\) & Labor disutility scale \\[4pt]
+\(\nu\) & \(2.0\) & Inverse Frisch parameter in GHH block \\[4pt]
+\(\omega_g\) & \(0.40\) & Weight on public expenditure \\[4pt]
+\(\beta\) & \(0.90\) & Sovereign discount factor \\[4pt]
+
+\(\rho\) & \(0.90\) & Productivity persistence \\[4pt]
+\(\sigma_\varepsilon\) & \(0.02\) & Productivity shock volatility \\[4pt]
+\(N_Z\) & \(7\) & Number of productivity grid points \\[4pt]
+\(m\) & \(3\) & Tauchen width parameter \\[4pt]
+
+\(d_0\) & \(-0.188\) & Default-cost parameter \\[4pt]
+\(d_1\) & \(0.246\) & Default-cost parameter \\[4pt]
+\(\lambda\) & \(0.20\) & Market re-entry probability \\[4pt]
+
+\(\sigma_L\) & \(2.5\) & Lender risk aversion \\[4pt]
+\(\beta_L\) & \(0.98\) & Lender discount factor \\[4pt]
+\(y_L\) & \(0.80\) & Lender endowment \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+\newpage
+\section{Computational Strategy}
+\label{sec:comp_strategy}
+
+We solve the model numerically by preserving the four-case Stackelberg recursion in Appendix C of de Ferra and Mallucci and modifying only the current-period payoff block. Relative to the endowment economy, the sovereigns in our extension do not take current-period utility as a direct function of endowment net of debt service. Instead, in each current-period branch, the government solves a static fiscal problem over the consumption tax, taking as given the current state, the relevant branch-specific debt choice, and the branch-specific bond price. The resulting tax-optimized branch return is then fed into the same recursive leader--follower system over debt issuance, default, readmission, and bond pricing.
+
+Accordingly, the numerical procedure inherits from de Ferra and Mallucci the following objects:
+\begin{itemize}[leftmargin=2em]
+    \item case-specific continuation values by regime,
+    \item choice-conditional bond prices,
+    \item Periphery's conditional debt/default problem,
+    \item Outskirt's first-stage Stackelberg problem,
+    \item a second-stage aggregation that maps conditional follower objects into equilibrium objects,
+    \item and a fixed-point iteration over value functions, default probabilities, lender marginal utility, and price policies.
+\end{itemize}
+
+The extension enters only through the static fiscal block described below.
+
+\subsection{Calibration and State Space}
+
+The aggregate state is
+\[
+s=(z_O,z_P,b_O,b_P,x_O,x_P),
+\]
+where $z_i$ is productivity, $b_i$ is debt due in the current period, and $x_i\in\{0,1\}$ is the market-access indicator, with $x_i=0$ denoting access and $x_i=1$ denoting exclusion. We impose the admissibility restriction
+\[
+x_i=1 \Rightarrow b_i=0.
+\]
+
+Let $\mathcal B_O$ and $\mathcal B_P$ denote the debt grids for Outskirt and Periphery, both containing zero explicitly. Let
+\[
+\mathcal T=[0,\bar\tau]
+\]
+denote the admissible tax grid.
+
+To keep the computational structure close to de Ferra and Mallucci, productivity is discretized jointly. Let
+\[
+\mathcal Z=\{(z_O^m,z_P^m)\}_{m=1}^{N_Z}
+\]
+denote the joint productivity grid, and let
+\[
+\Pi\big((z_O,z_P),(z_O',z_P')\big)
+\]
+denote the associated transition matrix. Market re-entry occurs independently across countries with probabilities $\lambda_O$ and $\lambda_P$.
+
+\subsection{Static Household Block}
+
+Given effective productivity $\tilde z_i$ and tax rate $\tau_i$, the household budget constraint is
+\[
+(1+\tau_i)c_i=A_i\tilde z_i l_i.
+\]
+Under GHH preferences, the intratemporal first-order condition is
+\[
+\theta l_i^\nu=\frac{A_i\tilde z_i}{1+\tau_i}.
+\]
+Hence
+\begin{equation}
+l_i(\tau_i,\tilde z_i)
+=
+\left(
+\frac{A_i\tilde z_i}{\theta(1+\tau_i)}
+\right)^{1/\nu},
+\qquad
+c_i(\tau_i,\tilde z_i)
+=
+\frac{A_i\tilde z_i\,l_i(\tau_i,\tilde z_i)}{1+\tau_i}.
+\label{eq:comp_static_allocations}
+\end{equation}
+
+Define the private utility component
+\begin{equation}
+u_i(\tau_i,\tilde z_i)
+=
+u\!\left(c_i(\tau_i,\tilde z_i),1-l_i(\tau_i,\tilde z_i)\right).
+\label{eq:comp_private_utility}
+\end{equation}
+
+In repayment states,
+\[
+\tilde z_i=z_i,
+\]
+whereas in default or exclusion states,
+\[
+\tilde z_i=h_i(z_i).
+\]
+
+\subsection{Tax Problems and Tax-Optimized Branch Returns}
+
+Taxes are not state variables. Instead, they are solved inside each current-period branch, conditional on the relevant debt choice and branch-specific price.
+
+\paragraph{Default or exclusion tax.}
+If country $i$ defaults or is excluded, it cannot issue debt and public expenditure is
+\[
+g_i^d(\tau_i;z_i)=\tau_i c_i(\tau_i,h_i(z_i)).
+\]
+The default-state tax problem is
+\begin{equation}
+\tau_i^{d*}(z_i)
+\in
+\arg\max_{\tau_i\in\mathcal T}
+\left\{
+u_i(\tau_i,h_i(z_i))
++
+v\!\left(g_i^d(\tau_i;z_i)\right)
+\right\},
+\label{eq:comp_tau_default}
+\end{equation}
+with associated default-period return
+\begin{equation}
+R_i^d(z_i)
+=
+\max_{\tau_i\in\mathcal T}
+\left\{
+u_i(\tau_i,h_i(z_i))
++
+v\!\left(g_i^d(\tau_i;z_i)\right)
+\right\}.
+\label{eq:comp_R_default}
+\end{equation}
+
+\paragraph{Repayment tax.}
+If country $i$ repays in regime $xy\in\{00,01,10\}$, the relevant repayment price is branch-specific. Given current debt $b_i$, candidate next-period debt $b_i'$, and repayment price $q_i^{xy}$, public expenditure is
+\[
+g_i^{r,xy}(\tau_i;s,b_i',q_i^{xy})
+=
+\tau_i c_i(\tau_i,z_i)+q_i^{xy}b_i'-b_i.
+\]
+The repayment-state tax problem is
+\begin{equation}
+\tau_i^{r,xy*}(s,b_i';q_i^{xy})
+\in
+\arg\max_{\tau_i\in\mathcal T}
+\left\{
+u_i(\tau_i,z_i)
++
+v\!\left(g_i^{r,xy}(\tau_i;s,b_i',q_i^{xy})\right)
+\right\},
+\label{eq:comp_tau_repay}
+\end{equation}
+subject to
+\[
+g_i^{r,xy}(\tau_i;s,b_i',q_i^{xy})\ge 0.
+\]
+The associated repayment-period return is
+\begin{equation}
+R_i^{r,xy}(s,b_i';q_i^{xy})
+=
+\max_{\tau_i\in\mathcal T}
+\left\{
+u_i(\tau_i,z_i)
++
+v\!\left(g_i^{r,xy}(\tau_i;s,b_i',q_i^{xy})\right)
+\right\}.
+\label{eq:comp_R_repay}
+\end{equation}
+
+Thus, relative to de Ferra and Mallucci, the only modification is that the current-period payoff terms entering the dynamic recursion are the tax-optimized returns \eqref{eq:comp_R_default} and \eqref{eq:comp_R_repay} rather than direct endowment-utility terms.
+
+\subsection{Extreme-Value Smoothing}
+
+Following Appendix C, we add Type-I extreme-value shocks to smooth both debt choices and default choices. Let $\rho_{EV}>0$ denote the scale parameter and let $\gamma_E$ denote Euler's constant. For a finite set of values $\{v_j\}_{j=1}^n$, define the inclusive value
+\[
+\mathcal I(v_1,\dots,v_n)
+=
+\gamma_E\rho_{EV}
++
+m
++
+\rho_{EV}\log\left(\sum_{j=1}^n\exp\left(\frac{v_j-m}{\rho_{EV}}\right)\right),
+\qquad
+m=\max_j v_j.
+\]
+
+If $V^r$ and $V^d$ denote repayment and default values, the smoothed default probability is
+\[
+d
+=
+\frac{\exp(V^d/\rho_{EV})}
+{\exp(V^d/\rho_{EV})+\exp(V^r/\rho_{EV})}.
+\]
+If $\{v(b')\}_{b'\in\mathcal B}$ are repayment values over a debt grid, the corresponding debt-choice probabilities are
+\[
+p(b')
+=
+\frac{\exp(v(b')/\rho_{EV})}
+{\sum_{\tilde b'\in\mathcal B}\exp(v(\tilde b')/\rho_{EV})}.
+\]
+
+\subsection{Terminal Initialization}
+
+We initialize the stationary iteration with terminal objects computed under closed financial markets:
+\[
+q_{O,T}^{00}=q_{P,T}^{00}=q_{O,T}^{01}=q_{P,T}^{10}=0,
+\qquad
+b_O'=b_P'=0.
+\]
+Given zero new borrowing, terminal branch payoffs are computed using the tax-optimized returns
+\[
+R_O^{r,00}(s,0;0),\quad
+R_O^{r,01}(s,0;0),\quad
+R_O^d(z_O),
+\]
+and
+\[
+R_P^{r,00}(s,0;0),\quad
+R_P^{r,10}(s,0;0),\quad
+R_P^d(z_P).
+\]
+These terminal branch payoffs generate initial terminal value functions
+\[
+V_{O,T}^{00},\quad V_{O,T}^{01},\quad V_{O,T}^{10},\quad V_{O,T}^{11},
+\]
+\[
+V_{P,T}^{00},\quad V_{P,T}^{01},\quad V_{P,T}^{10},\quad V_{P,T}^{11},
+\]
+together with initial default probabilities, initial policy-weighted price objects, and initial lender marginal utilities.
+
+\subsection{Generic Iteration}
+
+Starting from the initialized objects, we iterate on the stationary equilibrium operator. To simplify notation, iteration superscripts are omitted below.
+
+\subsubsection{Step 1: Construct Expected Continuation Objects}
+
+Using the previous-iteration regime values, construct expected continuation objects exactly in the regime notation of the model.
+
+For Outskirt,
+\begin{equation}
+\mathcal E_O^{00}(s,b_O',b_P')
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)\,
+V_O^{00}(z_O',z_P',b_O',b_P'),
+\label{eq:rew_EO00}
+\end{equation}
+\begin{equation}
+\mathcal E_O^{01}(s,b_O')
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)
+\left[
+(1-\lambda_P)V_O^{01}(z_O',z_P',b_O',0)
++\lambda_PV_O^{00}(z_O',z_P',b_O',0)
+\right],
+\label{eq:rew_EO01}
+\end{equation}
+\begin{equation}
+\mathcal E_O^{10}(s,b_P')
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)
+\left[
+(1-\lambda_O)V_O^{10}(z_O',z_P',0,b_P')
++\lambda_OV_O^{00}(z_O',z_P',0,b_P')
+\right],
+\label{eq:rew_EO10}
+\end{equation}
+and
+\begin{equation}
+\begin{aligned}
+\mathcal E_O^{11}(s)
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)
+\Big[
+&(1-\lambda_O)(1-\lambda_P)V_O^{11}(z_O',z_P',0,0)\\
+&+\lambda_O(1-\lambda_P)V_O^{01}(z_O',z_P',0,0)\\
+&+(1-\lambda_O)\lambda_PV_O^{10}(z_O',z_P',0,0)\\
+&+\lambda_O\lambda_PV_O^{00}(z_O',z_P',0,0)
+\Big].
+\end{aligned}
+\label{eq:rew_EO11}
+\end{equation}
+
+For Periphery,
+\begin{equation}
+\mathcal E_P^{00}(s,b_O',b_P')
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)\,
+V_P^{00}(z_O',z_P',b_O',b_P'),
+\label{eq:rew_EP00}
+\end{equation}
+\begin{equation}
+\mathcal E_P^{10}(s,b_P')
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)
+\left[
+(1-\lambda_O)V_P^{10}(z_O',z_P',0,b_P')
++\lambda_OV_P^{00}(z_O',z_P',0,b_P')
+\right],
+\label{eq:rew_EP10}
+\end{equation}
+\begin{equation}
+\mathcal E_P^{01}(s,b_O')
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)
+\left[
+(1-\lambda_P)V_P^{01}(z_O',z_P',b_O',0)
++\lambda_PV_P^{00}(z_O',z_P',b_O',0)
+\right],
+\label{eq:rew_EP01}
+\end{equation}
+and
+\begin{equation}
+\begin{aligned}
+\mathcal E_P^{11}(s)
+=
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)
+\Big[
+&(1-\lambda_O)(1-\lambda_P)V_P^{11}(z_O',z_P',0,0)\\
+&+\lambda_O(1-\lambda_P)V_P^{01}(z_O',z_P',0,0)\\
+&+(1-\lambda_O)\lambda_PV_P^{10}(z_O',z_P',0,0)\\
+&+\lambda_O\lambda_PV_P^{00}(z_O',z_P',0,0)
+\Big].
+\end{aligned}
+\label{eq:rew_EP11}
+\end{equation}
+
+\subsubsection{Step 2: Solve Choice-Conditional Bond Prices}
+
+At this stage, prices are solved before any policy weighting. We therefore compute the choice-conditional price arrays
+\[
+q_O^{00}(s,b_O',b_P'),\qquad q_P^{00}(s,b_O',b_P'),
+\]
+\[
+q_O^{01}(s,b_O'),\qquad q_P^{10}(s,b_P').
+\]
+
+Define the corresponding price numerators
+\begin{equation}
+N_O^{00}(s,b_O',b_P')
+=
+\beta_L
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)\,
+\mu_L^{00}(z_O',z_P',b_O',b_P')
+\left[1-d_O^{00}(z_O',z_P',b_O',b_P')\right],
+\label{eq:rew_NO00}
+\end{equation}
+\begin{equation}
+N_P^{00}(s,b_O',b_P')
+=
+\beta_L
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)\,
+\mu_L^{00}(z_O',z_P',b_O',b_P')
+\left[1-d_P^{00}(z_O',z_P',b_O',b_P')\right],
+\label{eq:rew_NP00}
+\end{equation}
+\begin{equation}
+N_O^{01}(s,b_O')
+=
+\beta_L
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)\,
+\mu_L^{01}(z_O',z_P',b_O',0)
+\left[1-d_O^{01}(z_O',z_P',b_O',0)\right],
+\label{eq:rew_NO01}
+\end{equation}
+\begin{equation}
+N_P^{10}(s,b_P')
+=
+\beta_L
+\sum_{(z_O',z_P')\in\mathcal Z}
+\Pi\big((z_O,z_P),(z_O',z_P')\big)\,
+\mu_L^{10}(z_O',z_P',0,b_P')
+\left[1-d_P^{10}(z_O',z_P',0,b_P')\right].
+\label{eq:rew_NP10}
+\end{equation}
+
+\paragraph{Joint-access regime.}
+For each state and debt tuple $(s,b_O',b_P')$, solve jointly
+\begin{equation}
+q_O^{00}(s,b_O',b_P')
+=
+N_O^{00}(s,b_O',b_P')\,
+\left(C_L^{00}(s,b_O',b_P')\right)^{\sigma_L},
+\label{eq:rew_qO00}
+\end{equation}
+\begin{equation}
+q_P^{00}(s,b_O',b_P')
+=
+N_P^{00}(s,b_O',b_P')\,
+\left(C_L^{00}(s,b_O',b_P')\right)^{\sigma_L},
+\label{eq:rew_qP00}
+\end{equation}
+where current lender consumption in this branch is
+\begin{equation}
+C_L^{00}(s,b_O',b_P')
+=
+y_L+b_O+b_P-q_O^{00}(s,b_O',b_P')\,b_O'-q_P^{00}(s,b_O',b_P')\,b_P'.
+\label{eq:rew_CL00}
+\end{equation}
+
+\paragraph{Only Outskirt active.}
+For each $(s,b_O')$,
+\begin{equation}
+q_O^{01}(s,b_O')
+=
+N_O^{01}(s,b_O')\,
+\left(C_L^{01}(s,b_O')\right)^{\sigma_L},
+\qquad
+C_L^{01}(s,b_O')=y_L+b_O-q_O^{01}(s,b_O')\,b_O'.
+\label{eq:rew_qO01}
+\end{equation}
+
+\paragraph{Only Periphery active.}
+For each $(s,b_P')$,
+\begin{equation}
+q_P^{10}(s,b_P')
+=
+N_P^{10}(s,b_P')\,
+\left(C_L^{10}(s,b_P')\right)^{\sigma_L},
+\qquad
+C_L^{10}(s,b_P')=y_L+b_P-q_P^{10}(s,b_P')\,b_P'.
+\label{eq:rew_qP10}
+\end{equation}
+
+Thus, the output of the pricing step is a set of choice-conditional price objects, not yet policy-weighted equilibrium price schedules.
+
+\subsubsection{Step 3: Periphery's Conditional Problem}
+
+Fix a current state $s$ and a candidate Outskirt debt choice $b_O'$.
+
+\paragraph{Case $P(00,r)$.}
+For each $b_P'\in\mathcal B_P$, define
+\begin{equation}
+W_{P}^{00,r}(s,b_O',b_P')
+=
+R_P^{r,00}\!\left(s,b_P';q_P^{00}(s,b_O',b_P')\right)
++
+\beta\,\mathcal E_P^{00}(s,b_O',b_P').
+\label{eq:rew_WP00r}
+\end{equation}
+Its inclusive repayment value is
+\begin{equation}
+\widehat W_P^{00,r}(s,b_O')
+=
+\mathcal I\left(\{W_P^{00,r}(s,b_O',b_P')\}_{b_P'\in\mathcal B_P}\right),
+\label{eq:rew_WhatP00r}
+\end{equation}
+with conditional debt-choice probabilities
+\begin{equation}
+p_P^{00}(b_P'|s,b_O')
+=
+\frac{\exp\!\left(W_P^{00,r}(s,b_O',b_P')/\rho_{EV}\right)}
+{\sum_{\tilde b_P'\in\mathcal B_P}
+\exp\!\left(W_P^{00,r}(s,b_O',\tilde b_P')/\rho_{EV}\right)}.
+\label{eq:rew_pP00}
+\end{equation}
+
+\paragraph{Case $P(10,r)$.}
+For each $b_P'\in\mathcal B_P$, define
+\begin{equation}
+W_P^{10,r}(s,b_P')
+=
+R_P^{r,10}\!\left(s,b_P';q_P^{10}(s,b_P')\right)
++
+\beta\,\mathcal E_P^{10}(s,b_P').
+\label{eq:rew_WP10r}
+\end{equation}
+Its inclusive repayment value is
+\begin{equation}
+\widehat W_P^{10,r}(s)
+=
+\mathcal I\left(\{W_P^{10,r}(s,b_P')\}_{b_P'\in\mathcal B_P}\right),
+\label{eq:rew_WhatP10r}
+\end{equation}
+with debt-choice probabilities
+\begin{equation}
+p_P^{10}(b_P'|s)
+=
+\frac{\exp\!\left(W_P^{10,r}(s,b_P')/\rho_{EV}\right)}
+{\sum_{\tilde b_P'\in\mathcal B_P}
+\exp\!\left(W_P^{10,r}(s,\tilde b_P')/\rho_{EV}\right)}.
+\label{eq:rew_pP10}
+\end{equation}
+
+\paragraph{Case $P(01,d)$.}
+If Outskirt repays and Periphery defaults,
+\begin{equation}
+W_P^{01,d}(s,b_O')
+=
+R_P^d(z_P)+\beta\,\mathcal E_P^{01}(s,b_O').
+\label{eq:rew_WP01d}
+\end{equation}
+
+\paragraph{Case $P(11,d)$.}
+If both countries default,
+\begin{equation}
+W_P^{11,d}(s)
+=
+R_P^d(z_P)+\beta\,\mathcal E_P^{11}(s).
+\label{eq:rew_WP11d}
+\end{equation}
+
+\paragraph{Conditional default probabilities.}
+Conditional on Outskirt repaying,
+\begin{equation}
+\hat d_P^{00}(s,b_O')
+=
+\frac{\exp\!\left(W_P^{01,d}(s,b_O')/\rho_{EV}\right)}
+{\exp\!\left(W_P^{01,d}(s,b_O')/\rho_{EV}\right)
++
+\exp\!\left(\widehat W_P^{00,r}(s,b_O')/\rho_{EV}\right)}.
+\label{eq:rew_dP00hat}
+\end{equation}
+Conditional on Outskirt defaulting,
+\begin{equation}
+\hat d_P^{10}(s)
+=
+\frac{\exp\!\left(W_P^{11,d}(s)/\rho_{EV}\right)}
+{\exp\!\left(W_P^{11,d}(s)/\rho_{EV}\right)
++
+\exp\!\left(\widehat W_P^{10,r}(s)/\rho_{EV}\right)}.
+\label{eq:rew_dP10hat}
+\end{equation}
+
+\subsubsection{Step 4: Outskirt's First-Stage Stackelberg Problem}
+
+Given Periphery's conditional strategies from Step 3, solve Outskirt's borrowing/default problem.
+
+\paragraph{Case $O(00,r)$.}
+For each $(b_O',b_P')\in\mathcal B_O\times\mathcal B_P$, define
+\begin{equation}
+W_O^{00,r}(s,b_O',b_P')
+=
+R_O^{r,00}\!\left(s,b_O';q_O^{00}(s,b_O',b_P')\right)
++
+\beta\,\mathcal E_O^{00}(s,b_O',b_P').
+\label{eq:rew_WO00r}
+\end{equation}
+Integrating over Periphery's conditional debt-choice probabilities,
+\begin{equation}
+\widetilde W_O^{00,r}(s,b_O')
+=
+\sum_{b_P'\in\mathcal B_P}
+p_P^{00}(b_P'|s,b_O')\,W_O^{00,r}(s,b_O',b_P').
+\label{eq:rew_WO00rtilde}
+\end{equation}
+
+\paragraph{Case $O(01,r)$.}
+If Periphery defaults and Outskirt remains active,
+\begin{equation}
+W_O^{01,r}(s,b_O')
+=
+R_O^{r,01}\!\left(s,b_O';q_O^{01}(s,b_O')\right)
++
+\beta\,\mathcal E_O^{01}(s,b_O').
+\label{eq:rew_WO01r}
+\end{equation}
+
+\paragraph{Case $O(10,d)$.}
+If Outskirt defaults and Periphery remains active,
+\begin{equation}
+W_O^{10,d}(s)
+=
+R_O^d(z_O)
++
+\beta\sum_{b_P'\in\mathcal B_P}
+p_P^{10}(b_P'|s)\,\mathcal E_O^{10}(s,b_P').
+\label{eq:rew_WO10d}
+\end{equation}
+
+\paragraph{Case $O(11,d)$.}
+If both countries default,
+\begin{equation}
+W_O^{11,d}(s)
+=
+R_O^d(z_O)+\beta\,\mathcal E_O^{11}(s).
+\label{eq:rew_WO11d}
+\end{equation}
+
+\paragraph{Debt-choice smoothing for Outskirt.}
+The inclusive repayment values are
+\begin{equation}
+\widehat W_O^{00,r}(s)
+=
+\mathcal I\left(\{\widetilde W_O^{00,r}(s,b_O')\}_{b_O'\in\mathcal B_O}\right),
+\label{eq:rew_WhatO00r}
+\end{equation}
+\begin{equation}
+\widehat W_O^{01,r}(s)
+=
+\mathcal I\left(\{W_O^{01,r}(s,b_O')\}_{b_O'\in\mathcal B_O}\right),
+\label{eq:rew_WhatO01r}
+\end{equation}
+with debt-choice probabilities
+\begin{equation}
+p_O^{00}(b_O'|s)
+=
+\frac{\exp\!\left(\widetilde W_O^{00,r}(s,b_O')/\rho_{EV}\right)}
+{\sum_{\tilde b_O'\in\mathcal B_O}
+\exp\!\left(\widetilde W_O^{00,r}(s,\tilde b_O')/\rho_{EV}\right)},
+\label{eq:rew_pO00}
+\end{equation}
+\begin{equation}
+p_O^{01}(b_O'|s)
+=
+\frac{\exp\!\left(W_O^{01,r}(s,b_O')/\rho_{EV}\right)}
+{\sum_{\tilde b_O'\in\mathcal B_O}
+\exp\!\left(W_O^{01,r}(s,\tilde b_O')/\rho_{EV}\right)}.
+\label{eq:rew_pO01}
+\end{equation}
+
+\subsubsection{Step 5: Second Stage of the Stackelberg Problem}
+
+Once Outskirt's debt-choice probabilities are known, aggregate Periphery's conditional objects into equilibrium branch values.
+
+\begin{equation}
+\bar W_P^{00,r}(s)
+=
+\sum_{b_O'\in\mathcal B_O}
+p_O^{00}(b_O'|s)\,\widehat W_P^{00,r}(s,b_O'),
+\label{eq:rew_WP00bar}
+\end{equation}
+\begin{equation}
+\bar W_P^{01,d}(s)
+=
+\sum_{b_O'\in\mathcal B_O}
+p_O^{00}(b_O'|s)\,W_P^{01,d}(s,b_O'),
+\label{eq:rew_WP01bar}
+\end{equation}
+and
+\begin{equation}
+\bar W_P^{10,r}(s)=\widehat W_P^{10,r}(s),
+\qquad
+\bar W_P^{11,d}(s)=W_P^{11,d}(s).
+\label{eq:rew_WP10WP11bar}
+\end{equation}
+
+Periphery's equilibrium default probabilities are therefore
+\begin{equation}
+d_P^{00}(s)
+=
+\frac{\exp\!\left(\bar W_P^{01,d}(s)/\rho_{EV}\right)}
+{\exp\!\left(\bar W_P^{01,d}(s)/\rho_{EV}\right)
++
+\exp\!\left(\bar W_P^{00,r}(s)/\rho_{EV}\right)},
+\label{eq:rew_dP00}
+\end{equation}
+\begin{equation}
+d_P^{10}(s)
+=
+\frac{\exp\!\left(\bar W_P^{11,d}(s)/\rho_{EV}\right)}
+{\exp\!\left(\bar W_P^{11,d}(s)/\rho_{EV}\right)
++
+\exp\!\left(\bar W_P^{10,r}(s)/\rho_{EV}\right)}.
+\label{eq:rew_dP10}
+\end{equation}
+
+\subsubsection{Step 6: Outskirt's Equilibrium Default Probability}
+
+Using Periphery's equilibrium default probabilities from Step 5, Outskirt's effective repayment and default values are
+\begin{equation}
+\bar W_O^{r}(s)
+=
+\left(1-d_P^{00}(s)\right)\widehat W_O^{00,r}(s)
++
+d_P^{00}(s)\widehat W_O^{01,r}(s),
+\label{eq:rew_WOr}
+\end{equation}
+\begin{equation}
+\bar W_O^{d}(s)
+=
+\left(1-d_P^{10}(s)\right)W_O^{10,d}(s)
++
+d_P^{10}(s)W_O^{11,d}(s).
+\label{eq:rew_WOd}
+\end{equation}
+Hence
+\begin{equation}
+d_O^{00}(s)
+=
+\frac{\exp\!\left(\bar W_O^{d}(s)/\rho_{EV}\right)}
+{\exp\!\left(\bar W_O^{d}(s)/\rho_{EV}\right)
++
+\exp\!\left(\bar W_O^{r}(s)/\rho_{EV}\right)},
+\label{eq:rew_dO00}
+\end{equation}
+and, when Periphery is excluded,
+\begin{equation}
+d_O^{01}(s)
+=
+\frac{\exp\!\left(W_O^{11,d}(s)/\rho_{EV}\right)}
+{\exp\!\left(W_O^{11,d}(s)/\rho_{EV}\right)
++
+\exp\!\left(\widehat W_O^{01,r}(s)/\rho_{EV}\right)}.
+\label{eq:rew_dO01}
+\end{equation}
+
+\subsubsection{Step 7: Construct Regime Values}
+
+Construct the state-only regime values from the branch values and equilibrium default probabilities.
+
+For Outskirt,
+\begin{equation}
+V_O^{00}(s)=\mathcal I\!\left(\bar W_O^{r}(s),\bar W_O^{d}(s)\right),
+\label{eq:rew_VO00}
+\end{equation}
+\begin{equation}
+V_O^{01}(s)=\mathcal I\!\left(\widehat W_O^{01,r}(s),W_O^{11,d}(s)\right),
+\label{eq:rew_VO01}
+\end{equation}
+\begin{equation}
+V_O^{10}(s)=W_O^{10,d}(s),
+\qquad
+V_O^{11}(s)=W_O^{11,d}(s).
+\label{eq:rew_VO10VO11}
+\end{equation}
+
+For Periphery,
+\begin{equation}
+V_P^{00}(s)
+=
+\left(1-d_O^{00}(s)\right)\mathcal I\!\left(\bar W_P^{00,r}(s),\bar W_P^{01,d}(s)\right)
++
+d_O^{00}(s)\mathcal I\!\left(\bar W_P^{10,r}(s),\bar W_P^{11,d}(s)\right),
+\label{eq:rew_VP00}
+\end{equation}
+\begin{equation}
+V_P^{10}(s)=\mathcal I\!\left(\bar W_P^{10,r}(s),\bar W_P^{11,d}(s)\right),
+\label{eq:rew_VP10}
+\end{equation}
+\begin{equation}
+V_P^{01}(s)=\bar W_P^{01,d}(s),
+\qquad
+V_P^{11}(s)=\bar W_P^{11,d}(s).
+\label{eq:rew_VP01VP11}
+\end{equation}
+
+\subsubsection{Step 8: Recover Equilibrium Tax Policies}
+
+The Bellman iteration is performed using the tax-optimized returns \eqref{eq:comp_R_default}--\eqref{eq:comp_R_repay}. Once equilibrium debt and default choices are known, the associated tax policies are recovered from the stored branch-wise argmax objects.
+
+If country $i$ repays in regime $xy$, its equilibrium tax is
+\[
+\tau_i^{xy}(s)=\tau_i^{r,xy*}\!\left(s,b_i'^{\,xy}(s);q_i^{xy}(s)\right).
+\]
+If country $i$ defaults or is excluded, its equilibrium tax is
+\[
+\tau_i^{xy}(s)=\tau_i^{d*}(z_i).
+\]
+
+\subsubsection{Step 9: Policy-Weighted Prices and Lender Update}
+
+After debt-choice probabilities are known, the choice-conditional prices are aggregated into policy-weighted price schedules. In the joint-access regime,
+\begin{equation}
+\bar q_O^{00}(s)
+=
+\sum_{b_O'\in\mathcal B_O}\sum_{b_P'\in\mathcal B_P}
+p_O^{00}(b_O'|s)\,p_P^{00}(b_P'|s,b_O')\,q_O^{00}(s,b_O',b_P'),
+\label{eq:rew_qO00bar}
+\end{equation}
+\begin{equation}
+\bar q_P^{00}(s)
+=
+\sum_{b_O'\in\mathcal B_O}\sum_{b_P'\in\mathcal B_P}
+p_O^{00}(b_O'|s)\,p_P^{00}(b_P'|s,b_O')\,q_P^{00}(s,b_O',b_P').
+\label{eq:rew_qP00bar}
+\end{equation}
+Likewise,
+\begin{equation}
+\bar q_O^{01}(s)
+=
+\sum_{b_O'\in\mathcal B_O}
+p_O^{01}(b_O'|s)\,q_O^{01}(s,b_O'),
+\qquad
+\bar q_P^{10}(s)
+=
+\sum_{b_P'\in\mathcal B_P}
+p_P^{10}(b_P'|s)\,q_P^{10}(s,b_P').
+\label{eq:rew_q01q10bar}
+\end{equation}
+
+The corresponding policy-weighted lender consumption objects are
+\begin{equation}
+\bar C_L^{00}(s)
+=
+y_L
++
+\left(1-d_O^{00}(s)\right)b_O
++
+\left(1-d_P^{00}(s)\right)b_P
+-
+\sum_{b_O'\in\mathcal B_O}\sum_{b_P'\in\mathcal B_P}
+p_O^{00}(b_O'|s)\,p_P^{00}(b_P'|s,b_O')
+\left[
+q_O^{00}(s,b_O',b_P')\,b_O'
++
+q_P^{00}(s,b_O',b_P')\,b_P'
+\right],
+\label{eq:rew_CL00bar}
+\end{equation}
+\begin{equation}
+\bar C_L^{01}(s)
+=
+y_L+\left(1-d_O^{01}(s)\right)b_O
+-
+\sum_{b_O'\in\mathcal B_O}p_O^{01}(b_O'|s)\,q_O^{01}(s,b_O')\,b_O',
+\label{eq:rew_CL01bar}
+\end{equation}
+\begin{equation}
+\bar C_L^{10}(s)
+=
+y_L+\left(1-d_P^{10}(s)\right)b_P
+-
+\sum_{b_P'\in\mathcal B_P}p_P^{10}(b_P'|s)\,q_P^{10}(s,b_P')\,b_P'.
+\label{eq:rew_CL10bar}
+\end{equation}
+
+Update lender marginal utility according to
+\begin{equation}
+\mu_L^{00}(s)=\left(\bar C_L^{00}(s)\right)^{-\sigma_L},
+\qquad
+\mu_L^{01}(s)=\left(\bar C_L^{01}(s)\right)^{-\sigma_L},
+\qquad
+\mu_L^{10}(s)=\left(\bar C_L^{10}(s)\right)^{-\sigma_L},
+\label{eq:rew_mu_update}
+\end{equation}
+and
+\[
+\mu_L^{11}(s)=y_L^{-\sigma_L}.
+\]
+
+\subsection{Damping and Convergence}
+
+All updated objects are damped:
+\[
+X^{new}
+=
+\kappa X^{candidate}
++
+(1-\kappa)X^{old},
+\qquad
+\kappa\in(0,1).
+\]
+Damping is applied to
+\[
+\{V_O^{00},V_O^{01},V_O^{10},V_O^{11},V_P^{00},V_P^{01},V_P^{10},V_P^{11}\},
+\]
+\[
+\{d_O^{00},d_O^{01},d_P^{00},d_P^{10}\},
+\qquad
+\{\bar q_O^{00},\bar q_O^{01},\bar q_P^{00},\bar q_P^{10}\},
+\qquad
+\{\mu_L^{00},\mu_L^{01},\mu_L^{10},\mu_L^{11}\}.
+\]
+The algorithm iterates until the sup-norm distances for values, default probabilities, and policy-weighted prices all fall below the prescribed tolerances.
+
+\subsection{Summary of the Numerical Procedure}
+
+The complete numerical procedure is as follows:
+
+\begin{enumerate}
+    \item Discretize the joint productivity process and construct the debt grids.
+    \item Solve the static household block.
+    \item Compute the default tax objects $\tau_i^{d*}(z_i)$ and default returns $R_i^d(z_i)$.
+    \item Given candidate price arrays, compute repayment tax objects $\tau_i^{r,xy*}(s,b_i';q_i^{xy})$ and repayment returns $R_i^{r,xy}(s,b_i';q_i^{xy})$.
+    \item Initialize terminal objects under closed financial markets.
+    \item Iterate on the stationary operator:
+    \begin{enumerate}
+        \item construct expected continuation objects;
+        \item solve choice-conditional bond prices in regimes $00$, $01$, and $10$;
+        \item solve Periphery's conditional problem;
+        \item solve Outskirt's first-stage Stackelberg problem;
+        \item aggregate Periphery's conditional objects into equilibrium branch values;
+        \item compute Outskirt's equilibrium default probabilities;
+        \item construct the regime value functions;
+        \item recover equilibrium tax policies;
+        \item compute policy-weighted prices and update lender marginal utility;
+        \item damp all updated objects.
+    \end{enumerate}
+    \item Stop when values, default probabilities, and policy-weighted prices converge.
+\end{enumerate}
+\subsection{Implementation Details and Mapping to Code}
+\label{sec:implementation_details}
+
+This subsection makes explicit the numerical objects that must be carried in the code in order
+to implement the recursive Stackelberg equilibrium. The key principle is that the algorithm
+operates on \emph{choice-conditional arrays} first, and only afterward constructs
+policy-weighted equilibrium objects.
+
+\subsubsection{Stored Objects}
+
+At each iteration, the code stores the following objects.
+
+\paragraph{State-only regime values.}
+For each admissible state $s$, store
+\[
+V_O^{00}(s),\quad V_O^{01}(s),\quad V_O^{10}(s),\quad V_O^{11}(s),
+\]
+\[
+V_P^{00}(s),\quad V_P^{01}(s),\quad V_P^{10}(s),\quad V_P^{11}(s).
+\]
+
+\paragraph{Choice-conditional price arrays.}
+For every state-choice tuple, store
+\[
+q_O^{00}(s,b_O',b_P'),\qquad q_P^{00}(s,b_O',b_P'),
+\]
+\[
+q_O^{01}(s,b_O'),\qquad q_P^{10}(s,b_P').
+\]
+These are \emph{not} yet equilibrium price policies. They are branch-level prices used to
+evaluate current-period repayment returns.
+
+\paragraph{Tax-optimized current-period returns.}
+For each country $i\in\{O,P\}$, store
+\[
+R_i^d(z_i),
+\]
+and, for every relevant state-choice-price tuple,
+\[
+R_i^{r,00}(s,b_i';q_i^{00}),\qquad
+R_i^{r,01}(s,b_i';q_i^{01}),\qquad
+R_i^{r,10}(s,b_i';q_i^{10}),
+\]
+together with the associated argmax tax rules
+\[
+\tau_i^{d*}(z_i),\qquad
+\tau_i^{r,00*}(s,b_i';q_i^{00}),\qquad
+\tau_i^{r,01*}(s,b_i';q_i^{01}),\qquad
+\tau_i^{r,10*}(s,b_i';q_i^{10}).
+\]
+
+\paragraph{Follower conditional objects.}
+For Periphery, conditional on Outskirt's debt choice, store
+\[
+W_P^{00,r}(s,b_O',b_P'),\qquad
+\widehat W_P^{00,r}(s,b_O'),
+\]
+\[
+W_P^{10,r}(s,b_P'),\qquad
+\widehat W_P^{10,r}(s),
+\]
+\[
+W_P^{01,d}(s,b_O'),\qquad
+W_P^{11,d}(s),
+\]
+and the corresponding debt-choice probabilities
+\[
+p_P^{00}(b_P'|s,b_O'),\qquad
+p_P^{10}(b_P'|s).
+\]
+Also store the conditional default probabilities
+\[
+\hat d_P^{00}(s,b_O'),\qquad \hat d_P^{10}(s).
+\]
+
+\paragraph{Leader first-stage objects.}
+For Outskirt, store
+\[
+W_O^{00,r}(s,b_O',b_P'),\qquad
+\widetilde W_O^{00,r}(s,b_O'),
+\]
+\[
+W_O^{01,r}(s,b_O'),\qquad
+W_O^{10,d}(s),\qquad
+W_O^{11,d}(s),
+\]
+together with the inclusive repayment values
+\[
+\widehat W_O^{00,r}(s),\qquad
+\widehat W_O^{01,r}(s),
+\]
+and the debt-choice probabilities
+\[
+p_O^{00}(b_O'|s),\qquad p_O^{01}(b_O'|s).
+\]
+
+\paragraph{Equilibrium default objects.}
+After the second-stage Stackelberg aggregation, store
+\[
+d_P^{00}(s),\qquad d_P^{10}(s),\qquad
+d_O^{00}(s),\qquad d_O^{01}(s).
+\]
+
+\paragraph{Policy-weighted lender objects.}
+After policy aggregation, store
+\[
+\bar q_O^{00}(s),\qquad \bar q_P^{00}(s),\qquad
+\bar q_O^{01}(s),\qquad \bar q_P^{10}(s),
+\]
+\[
+\bar C_L^{00}(s),\qquad \bar C_L^{01}(s),\qquad \bar C_L^{10}(s),
+\]
+\[
+\mu_L^{00}(s),\qquad \mu_L^{01}(s),\qquad \mu_L^{10}(s),\qquad \mu_L^{11}(s).
+\]
+
+\subsubsection{Order of Computation Within an Iteration}
+
+The order of computation in the code must follow the Stackelberg structure exactly.
+
+\paragraph{Step 1: continuation objects.}
+Using the previous iteration's regime values, construct
+\[
+\mathcal E_O^{00},\ \mathcal E_O^{01},\ \mathcal E_O^{10},\ \mathcal E_O^{11},
+\qquad
+\mathcal E_P^{00},\ \mathcal E_P^{01},\ \mathcal E_P^{10},\ \mathcal E_P^{11}.
+\]
+At the same time, construct the price numerators
+\[
+N_O^{00},\quad N_P^{00},\quad N_O^{01},\quad N_P^{10},
+\]
+using the previous iteration's lender marginal utility and default probabilities.
+
+\paragraph{Step 2: branch-level prices.}
+For every $(s,b_O',b_P')$, solve jointly for
+\[
+q_O^{00}(s,b_O',b_P'),\qquad q_P^{00}(s,b_O',b_P').
+\]
+For every $(s,b_O')$, solve for
+\[
+q_O^{01}(s,b_O').
+\]
+For every $(s,b_P')$, solve for
+\[
+q_P^{10}(s,b_P').
+\]
+This step must be completed \emph{before} solving the sovereigns' repayment branches,
+because the tax-optimized repayment return depends on the branch-specific price.
+
+\paragraph{Step 3: repayment-return tensor.}
+Given the branch-level prices from Step 2, solve the static repayment tax problem for each
+relevant state-choice tuple and store the repayment returns
+\[
+R_O^{r,00},\ R_O^{r,01},\ R_P^{r,00},\ R_P^{r,10},
+\]
+together with their argmax tax policies. Since the default return depends only on current
+productivity, the object
+\[
+R_i^d(z_i)
+\]
+is precomputed over the productivity grid and broadcast across the debt dimensions.
+
+\paragraph{Step 4: Periphery's conditional problem.}
+For each current state $s$ and each candidate Outskirt borrowing choice $b_O'$:
+\begin{enumerate}[label=(\alph*)]
+    \item compute $W_P^{00,r}(s,b_O',b_P')$ for all $b_P'$;
+    \item smooth over $b_P'$ to obtain $\widehat W_P^{00,r}(s,b_O')$ and
+    $p_P^{00}(b_P'|s,b_O')$;
+    \item compute $W_P^{10,r}(s,b_P')$ for all $b_P'$;
+    \item smooth over $b_P'$ to obtain $\widehat W_P^{10,r}(s)$ and
+    $p_P^{10}(b_P'|s)$;
+    \item compute the default branch values $W_P^{01,d}(s,b_O')$ and $W_P^{11,d}(s)$;
+    \item compute the conditional default probabilities
+    \[
+    \hat d_P^{00}(s,b_O'),\qquad \hat d_P^{10}(s).
+    \]
+\end{enumerate}
+
+\paragraph{Step 5: Outskirt's first-stage problem.}
+Using Periphery's conditional debt-choice probabilities from Step 4:
+\begin{enumerate}[label=(\alph*)]
+    \item compute $W_O^{00,r}(s,b_O',b_P')$ for all $(b_O',b_P')$;
+    \item integrate over $p_P^{00}(b_P'|s,b_O')$ to obtain
+    $\widetilde W_O^{00,r}(s,b_O')$;
+    \item compute $W_O^{01,r}(s,b_O')$ for all $b_O'$;
+    \item compute $W_O^{10,d}(s)$ by integrating $\mathcal E_O^{10}(s,b_P')$
+    against $p_P^{10}(b_P'|s)$;
+    \item compute $W_O^{11,d}(s)$;
+    \item smooth over $b_O'$ to obtain
+    \[
+    \widehat W_O^{00,r}(s),\qquad \widehat W_O^{01,r}(s),
+    \]
+    and debt-choice probabilities
+    \[
+    p_O^{00}(b_O'|s),\qquad p_O^{01}(b_O'|s).
+    \]
+\end{enumerate}
+
+\paragraph{Step 6: second-stage Stackelberg aggregation.}
+Using Outskirt's equilibrium debt-choice probabilities from Step 5:
+\begin{enumerate}[label=(\alph*)]
+    \item aggregate Periphery's conditional repayment and default values into
+    \[
+    \bar W_P^{00,r}(s),\qquad \bar W_P^{01,d}(s),
+    \]
+    and retain
+    \[
+    \bar W_P^{10,r}(s)=\widehat W_P^{10,r}(s),\qquad
+    \bar W_P^{11,d}(s)=W_P^{11,d}(s);
+    \]
+    \item compute Periphery's equilibrium default probabilities
+    \[
+    d_P^{00}(s),\qquad d_P^{10}(s);
+    \]
+    \item construct Outskirt's effective repayment and default values
+    \[
+    \bar W_O^r(s),\qquad \bar W_O^d(s);
+    \]
+    \item compute Outskirt's equilibrium default probabilities
+    \[
+    d_O^{00}(s),\qquad d_O^{01}(s).
+    \]
+\end{enumerate}
+
+\paragraph{Step 7: regime values.}
+Construct the state-only regime values
+\[
+V_O^{00},V_O^{01},V_O^{10},V_O^{11},
+\qquad
+V_P^{00},V_P^{01},V_P^{10},V_P^{11}.
+\]
+
+\paragraph{Step 8: recover tax policies.}
+Once equilibrium debt and default choices are known, map the relevant state-choice-price tuple
+into the stored argmax of the static tax problem and recover equilibrium tax rules.
+
+\paragraph{Step 9: policy-weighted lender update.}
+Aggregate the choice-conditional prices using equilibrium debt-choice probabilities to obtain
+\[
+\bar q_O^{00},\ \bar q_P^{00},\ \bar q_O^{01},\ \bar q_P^{10}.
+\]
+Then compute policy-weighted lender consumption
+\[
+\bar C_L^{00},\qquad \bar C_L^{01},\qquad \bar C_L^{10},
+\]
+and update
+\[
+\mu_L^{00},\qquad \mu_L^{01},\qquad \mu_L^{10},\qquad \mu_L^{11}.
+\]
+
+\paragraph{Step 10: damping and convergence.}
+Damp value functions, default probabilities, price policies, and lender marginal utilities.
+Check sup-norm convergence of all these objects. If convergence fails, return to Step 1.
+
+\subsubsection{Implementation Remarks}
+
+Three implementation details are essential.
+
+First, repayment prices must be solved \emph{case by case} and \emph{before} policy weighting.
+Hence the code should never begin from $\bar q_O^{00}$ or $\bar q_P^{00}$ directly. It should
+first solve for
+\[
+q_O^{00}(s,b_O',b_P'),\qquad q_P^{00}(s,b_O',b_P'),
+\]
+and only later average them using debt-choice probabilities.
+
+Second, the static tax problem is solved \emph{inside} each branch. Therefore the dynamic state
+space is unchanged relative to the benchmark recursion: taxes are not additional state variables.
+
+Third, the follower's problem must remain conditional on the leader's debt choice up to the
+second-stage Stackelberg aggregation. Any implementation that collapses Periphery's problem
+too early into state-only objects breaks the logic of the leader--follower equilibrium.
+
+\end{document}

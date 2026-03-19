@@ -259,12 +259,21 @@ def simulate(eq, seed=42):
             CL_val = p.y_L + repayO + repayP - purchO - purchP
             store['CL'][n, t] = max(CL_val, _EPS)
 
-            # spreads (annualised basis points)
+            # spreads: yield = 1/q - 1; risk-free yield from lender SDF
+            # q_rf = β_L * (C_L_next / C_L_now)^{-σ_L} ≈ β_L when consumption stable
+            # use model-consistent risk-free price from lender's consumption
+            mu_now = max(CL_val, _EPS) ** (-p.sigma_L)
+            q_rf = p.beta_L  # will be refined below from avg future mu
             qO_val = store['qO'][n, t]
             qP_val = store['qP'][n, t]
-            rf = p.beta_L  # approximate risk-free price
-            store['spreadO'][n, t] = (1.0/max(qO_val, 1e-6) - 1.0/rf) * 1e4 if qO_val > 1e-6 else 0.0
-            store['spreadP'][n, t] = (1.0/max(qP_val, 1e-6) - 1.0/rf) * 1e4 if qP_val > 1e-6 else 0.0
+            if qO_val > 1e-6:
+                yield_O = 1.0 / qO_val - 1.0
+                yield_rf = 1.0 / max(q_rf, 1e-6) - 1.0
+                store['spreadO'][n, t] = max(0.0, (yield_O - yield_rf)) * 1e4
+            if qP_val > 1e-6:
+                yield_P = 1.0 / qP_val - 1.0
+                yield_rf = 1.0 / max(q_rf, 1e-6) - 1.0
+                store['spreadP'][n, t] = max(0.0, (yield_P - yield_rf)) * 1e4
 
             # ── transition ──
             iz_new = _draw_markov(Pi, iz, rng)

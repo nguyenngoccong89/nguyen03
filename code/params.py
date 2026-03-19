@@ -45,7 +45,7 @@ class Params:
     A_P: float = 0.71          # P output scale (de Ferra–Mallucci)
 
     # ── Extreme-value smoothing ──
-    rho_EV: float = 0.50       # EV scale parameter
+    rho_EV: float = 0.15       # EV scale parameter (small → sharper policies)
     euler_gamma: float = 0.5772156649
 
     # ── Grid sizes ──
@@ -57,8 +57,8 @@ class Params:
     m_tauchen: int = 3         # Tauchen width parameter
 
     # ── Grid bounds ──
-    bO_max: float = 0.20       # maximum O debt
-    bP_max: float = 0.20       # maximum P debt
+    bO_max: float = 0.30       # maximum O debt
+    bP_max: float = 0.30       # maximum P debt
     tau_max: float = 0.50      # maximum tax rate
 
     # ── Convergence ──

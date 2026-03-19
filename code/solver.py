@@ -453,19 +453,10 @@ def solve_model(p=None):
 
         VP_10_new = I_P10r.copy()
 
-        VP_01_new = barWP_01d[:, :, 0] if barWP_01d.ndim == 3 else barWP_01d
-        # VP_01: P excluded, state (z, bO). barWP_01d was (nz,nbO,nbP);
-        # when P is excluded bP=0 → index 0
-        # But actually in regime 01, there's no bP dimension. Let me slice:
-        VP_01_new = RdP_f[:, None] + p.beta * EP_11[:, None]
-        # When P is excluded AND O is active: P just gets default return + continuation
-        VP_01_new = RdP_f[:, None] * np.ones(nbO)[None, :] + p.beta * EP_01
-        # EP_01 already mixes readmission. Let me reconsider.
-        # V_P^01 is P's value when x_O=0, x_P=1. P is excluded:
-        # V_P^01(z,bO) = R_P^d(z_P) + β E_P^01(z, bO)  where bO is O's debt
-        # but the TeX says VP_01 = barWP_01d when bP=0...
-        # From TeX eq rew_VP01VP11: V_P^01 = bar_W_P^{01,d}(s), V_P^11 = bar_W_P^{11,d}(s)
-        # barWP_01d depends on (z, bO, bP). For regime 01, bP=0.
+        # V_P^01: P excluded, O has access. From TeX (eq rew_VP01VP11):
+        #   V_P^01(s) = bar_W_P^{01,d}(s).
+        # In regime 01 the state has bP=0 (index 0).
+        # barWP_01d = RdP + β EP_01 already has the right continuation structure.
         VP_01_new = barWP_01d[:, :, 0]  # (nz, nbO)
 
         VP_11_new = WP_11d.copy()
